@@ -51,11 +51,15 @@
                     </li>
 
                 </ul>
+
+                <span class="me-2">Hello, <strong>{{request.user}}</strong></span>
+
                 <form action="{% url 'search' %}" class="d-flex" method="GET">
-                    <input name="search" class="form-control me-2" type="search" placeholder="Search"
-                        aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
+                    <input name="search" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success me-2" type="submit">Search</button>
                 </form>
+                
+                <span><a class="btn btn-outline-success" href="{% url 'logout' %}">Log Out</a></span>
             </div>
         </div>
     </nav>
