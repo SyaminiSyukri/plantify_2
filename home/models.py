@@ -1,5 +1,8 @@
 from django.db import models
 from django.urls import reverse
+from django.core.files.storage import FileSystemStorage
+
+fs = FileSystemStorage(location='pic/%y/')
 
 # Create your models here.
 class Image(models.Model):
@@ -17,3 +20,16 @@ class Image(models.Model):
     
     def get_absolute_url(self):
         return reverse('details',args=[self.id,self.slug])
+
+class Notes(models.Model):
+    plantname = models.CharField(max_length=100)
+    description = models.TextField(blank=True, null=True)
+    image = models.FileField(upload_to="pic/%y/")
+
+    def __str__(self):
+        return self.plantname
+  
+        
+        
+
+        

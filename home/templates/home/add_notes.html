@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <!-- Bootstrap CSS -->
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+ integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<!--<script src="https://cdn.tailwindcss.com"></script> -->
+
+    <title>Document</title>
+</head>
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+
+<body>
+    <!-- Header -->
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light" style="background-color: #B1E09C">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'index' %}">
+                <img src="{% static 'logo/logo.png' %}" alt="" width="30" height="24"
+                    class="d-inline-block align-text-top">Plantify</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{% url 'index' %}">Home</a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Categories
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <li><a class="dropdown-item" href="#">Flower</a></li>
+                          <li><a class="dropdown-item" href="#">Fruit</a></li>
+                          <li><a class="dropdown-item" href="#">Herb</a></li>
+                          <li><a class="dropdown-item" href="#">Succulent</a></li>
+                        </ul>
+                      </li> 
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'notes' %}">My Notes</a>
+                    </li>
+                    
+                </ul>
+
+                <span class="me-2">Hello, <strong>{{request.user}}</strong></span>
+
+                <form action="{% url 'search' %}" class="d-flex" method="GET">
+                    <input name="search" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success me-2" type="submit">Search</button>
+                </form>
+                
+                <span><a class="btn btn-outline-success" href="{% url 'logout' %}">Log Out</a></span>
+            </div>
+        </div>
+    </nav>
+
+<body>
+    <div class="container1">
+        <h1>Add Notes</h1>
+        <form action="{% url 'add_notes' %}" method="POST">
+            {% csrf_token %}
+            <label for="">Plant Name:</label><br><br>
+            <input type="text" name="plantname"><br><br>
+
+            <label for="">Descriptions:</label><br><br>
+            <input type="text" name="description"><br><br>
+
+            <label for="fileInput">Image:</label><br><br>
+            <input type="file" name="image" id="fileInput" accept="image/*"><br><br>
+
+           
+
+            <button type="submit" id="new">Submit</button>
+        </form>
+    </div>
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    -->
+
+    <!-- Footer -->
+    <nav class="navbar static-bottom navbar-light" style="background-color: #B1E09C">
+        <div class="container-fluid d-flex justify-content-center">
+            <span class="navbar-text">
+                Copyright &#169; 2024, <strong>Plantify</strong>. All Rights Reserved.
+            </span>
+        </div>
+    </nav>
+    <script>
+    // JavaScript to handle image preview
+        const fileInput = document.getElementById('fileInput');
+        const imageUpload = document.getElementById('imageUpload');
+
+        fileInput.addEventListener('change', function (event) {
+            const file = event.target.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    imageUpload.src = e.target.result;
+                    imageUpload.style.display = 'block';
+                };
+
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+
+</html>

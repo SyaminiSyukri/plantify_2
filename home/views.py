@@ -1,10 +1,12 @@
 from django.shortcuts import get_object_or_404, render, HttpResponse, redirect
-from .models import Image
 from django.db.models import Q
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from .models import Image, Notes
+from .forms import NotesForm
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 def registerPage(request):
@@ -69,7 +71,25 @@ def search(request):
                                     | Q(sdesc__icontains=query) | Q(ldesc__icontains=query))
     return render(request, 'home/search.html',{'query':query, 'result':result})
 
-
-def notesPage(request):
-    context = {}
+def notes_view(request):
+    notes = Notes.objects.all()
+    context = {'notes': notes }
     return render(request, 'home/notes.html', context)
+
+def add_notes(request):
+    if request.method == 'POST':
+        plantname = request.POST.get('plantname')
+        description = request.POST.get('description')
+        image = request.FILES.get('image')
+
+        if Notes:  # Check if the image was uploaded
+            new_image = Notes(plantname=plantname, description=description, image=image)
+            new_image.save()
+            valid_message = "New post plant added!"
+            return render(request, 'home/add_notes.html', {'valid': valid_message})  # Redirect after successful upload
+        else:
+            # You can add an error message here to inform the user
+            error_message = "Please upload a valid image."
+            return render(request, 'home/add_notes.html', {'error': error_message})
+
+    return render(request, 'home/add_notes.html')

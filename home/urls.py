@@ -1,3 +1,4 @@
+from django.contrib import admin
 from django.urls import path, include
 from . import views
 
@@ -10,5 +11,7 @@ urlpatterns = [
     path('<id>/<str:slug>/', views.detail_view, name='details'),
     path('search/', views.search, name='search'),
 
-    path('notes/', views.notesPage, name='notes'),
-]
+    path('notes/', views.notes_view, name='notes'),
+    path('add_notes/', views.add_notes, name='add_notes'),
+   
+] 
